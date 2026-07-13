@@ -22,3 +22,7 @@ build/
 results*/
 pilot-*.txt
 scratch_*
+middle-*.txt
+bottom-*.txt
+top-*.csv
+*-log.txt

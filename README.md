@@ -47,6 +47,20 @@ See `RULES.md` for the full rule set, confidence levels, and known false positiv
 - The tool undercounts by design (static HTML, homepage only), so any reported prevalence is a floor.
 - Every published finding is human-reviewed first, and described by what it contains, never by intent.
 
+## Pilot findings so far
+
+Three slices of the Tranco top-million were sampled (most popular, middle around rank 500,000, and bottom near rank 1,000,000), 1,000 domains each.
+
+| Slice | Reachable | Hidden segments extracted | Hidden AI manipulation | Legacy hidden SEO text | llms.txt present |
+|-------|-----------|---------------------------|------------------------|------------------------|------------------|
+| Top 1,000 | 525 | ~17,100 | 0 | 87 | 93 |
+| Middle 1,000 | 593 | ~17,500 | 0 | 137 | 81 |
+| Bottom 1,000 | 595 | ~17,600 | 0 | 66 | 72 |
+
+Across roughly 1,640 reachable sites and 52,000 pieces of hidden text, hidden instructions aimed at AI agents appeared zero times, and the rate did not rise down-market. The rare hidden text mentioning AI turned out to be ordinary news content, not instructions. The genuine, measurable signal is legacy hidden SEO keyword stuffing, which AI systems now read.
+
+These numbers are a floor, not a ceiling: the scan reads static HTML only, homepages only, and English phrasings only. See the open issues for planned work to close those gaps.
+
 ## Status
 
-Pilot build. Next step: run the pilot across the Tranco top 500 to measure the real hit rate before committing to a full study.
+Pilot complete. Deciding between publishing the negative result, pivoting to the SEO angle, or extending coverage (JavaScript rendering, multi-page crawl, user-generated content). Tracked in the issues.
