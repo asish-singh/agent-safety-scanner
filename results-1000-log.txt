@@ -1,0 +1,44 @@
+Sweeping 1000 sites (0 already done), concurrency 12
+[25/1000] ERR   googleusercontent.com (HTTP 404)
+[50/1000] ok    azure.com llms.txt
+[75/1000] ERR   ytimg.com (fetch failed)
+[100/1000] ok    sentry.io llms.txt
+[125/1000] ok    snapchat.com 
+[150/1000] ERR   dns-parking.com (fetch failed)
+[175/1000] ok    soundcloud.com 
+[200/1000] ERR   macromedia.com (fetch failed)
+[225/1000] ERR   canva.com (HTTP 403)
+[250/1000] ok    scorecardresearch.com 
+[275/1000] ERR   capcutapi.com (fetch failed)
+[300/1000] ERR   samsungqbe.com (fetch failed)
+[325/1000] ERR   akamaihd.net (fetch failed)
+[350/1000] ok    aliyun.com 
+[375/1000] ok    stanford.edu 
+[400/1000] ERR   xcal.tv (fetch failed)
+[425/1000] ok    steamcommunity.com 
+[450/1000] ERR   netease.com (fetch failed)
+[475/1000] ERR   hostgator.com (HTTP 403)
+[500/1000] ERR   tencent-cloud.net (fetch failed)
+[525/1000] ERR   bdydns.com (fetch failed)
+[550/1000] ERR   vedsalb.com (fetch failed)
+[575/1000] ok    grammarly.com 
+[600/1000] ok    onetrust.com llms.txt
+[625/1000] ok    rakuten.co.jp 
+[650/1000] ERR   noaa.gov (HTTP 403)
+[675/1000] ok    pinimg.com 
+[700/1000] ERR   dbankcloud.com (fetch failed)
+[725/1000] ok    rt.ru 
+[750/1000] ok    uber.com info:3
+[775/1000] ERR   fiverr.com (HTTP 403)
+[800/1000] ok    globalsign.com 
+[825/1000] ok    disqus.com 
+[850/1000] ERR   spotifycdn.com (fetch failed)
+[875/1000] ok    fwmrm.net 
+[900/1000] ERR   coupang.com (HTTP 403)
+[925/1000] ERR   umich.edu (HTTP 403)
+[950/1000] ok    rutube.ru 
+[975/1000] ok    smilewanted.com 
+[1000/1000] ERR   costco.com (fetch failed)
+Done. 1000 scanned, 0 with high-confidence findings.
+Results: results-1000/results.jsonl
+Findings: results-1000/findings.jsonl

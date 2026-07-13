@@ -1,0 +1,44 @@
+Sweeping 1000 sites (0 already done), concurrency 12
+[25/1000] ERR   dzen.ru (fetch failed)
+[50/1000] ok    icloud.com 
+[75/1000] ok    myfritz.net 
+[100/1000] ok    discord.gg 
+[125/1000] ERR   forms.gle (HTTP 400)
+[150/1000] ERR   spo-msedge.net (fetch failed)
+[175/1000] ok    adobe.io 
+[200/1000] ok    mts.ru 
+[225/1000] ERR   canva.com (HTTP 403)
+[250/1000] ok    linktr.ee llms.txt
+[275/1000] ok    hp.com 
+[300/1000] ERR   samsungqbe.com (fetch failed)
+[325/1000] ERR   namebrightdns.com (fetch failed)
+[350/1000] ok    gnu.org 
+[375/1000] ok    plesk.com info:3 llms.txt
+[400/1000] ok    telegram.me 
+[425/1000] ok    bsky.app 
+[450/1000] ok    substack.com 
+[475/1000] ERR   myqcloud.com (fetch failed)
+[500/1000] ERR   ft.com (HTTP 403)
+[525/1000] ok    time.com 
+[550/1000] ERR   tripadvisor.com (HTTP 403)
+[575/1000] ERR   msidentity.com (fetch failed)
+[600/1000] ERR   licdn.com (fetch failed)
+[625/1000] ok    att.net 
+[650/1000] ok    cdnvideo.ru info:1
+[675/1000] ERR   1rx.io (fetch failed)
+[700/1000] ok    amazon.es 
+[725/1000] ok    shopee.co.id 
+[750/1000] ok    box.com 
+[775/1000] ERR   tplinknbu.com (fetch failed)
+[800/1000] ok    disneyplus.com 
+[825/1000] ok    discordapp.com 
+[850/1000] ERR   cdnhwc1.com (fetch failed)
+[875/1000] ERR   orderbox-dns.com (fetch failed)
+[900/1000] ok    state.gov 
+[925/1000] ok    mailchi.mp llms.txt
+[950/1000] ERR   miwifi.com (fetch failed)
+[975/1000] ERR   4dex.io (fetch failed)
+[1000/1000] ERR   costco.com (fetch failed)
+Done. 1000 scanned, 0 with high-confidence findings.
+Results: results-1000b/results.jsonl
+Findings: results-1000b/findings.jsonl

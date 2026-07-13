@@ -35,7 +35,7 @@ export function segmentsToFindings(segments: HiddenSegment[]): Finding[] {
   return findings;
 }
 
-async function fetchText(url: string): Promise<{ status: number; body: string; finalUrl: string } | null> {
+async function fetchOnce(url: string): Promise<{ status: number; body: string; finalUrl: string } | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
@@ -63,6 +63,15 @@ async function fetchText(url: string): Promise<{ status: number; body: string; f
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** Fetch with one retry, since a single transient timeout under concurrency
+ * would otherwise drop a live site and undercount the study. */
+async function fetchText(url: string): Promise<{ status: number; body: string; finalUrl: string } | null> {
+  const first = await fetchOnce(url);
+  if (first) return first;
+  await new Promise((r) => setTimeout(r, 750));
+  return fetchOnce(url);
 }
 
 export async function scanSite(input: string): Promise<ScanResult> {
@@ -98,23 +107,13 @@ export async function scanSite(input: string): Promise<ScanResult> {
 
   const origin = new URL(page.finalUrl.startsWith('http') ? page.finalUrl : url).origin;
 
+  // llms.txt is a PUBLIC, non-hidden file that sites publish on purpose. There
+  // is no hiding channel, so by our two-part rule it can never be a manipulation
+  // finding — agent-directed language there is the expected content, not a
+  // signal. We record only its presence, as a benign (info) statistic.
   const llms = await fetchText(`${origin}/llms.txt`);
   if (llms && llms.status === 200 && !/<html/i.test(llms.body.slice(0, 500))) {
     result.llmsTxt.present = true;
-    const { tier, matchedRules } = classifyText(llms.body);
-    // llms.txt is agent-directed by definition; only A/B tiers are findings,
-    // plain agent guidance there is the norm, not a signal.
-    if (tier === 'A_ADDRESSES_AI' || tier === 'B_STEERS_BEHAVIOR') {
-      result.llmsTxt.findings.push({
-        channel: 'H08_META_PROSE',
-        tier,
-        matchedRules,
-        text: llms.body.replace(/\s+/g, ' ').slice(0, 600),
-        location: '/llms.txt',
-        accessibilityPattern: false,
-        confidence: tier === 'A_ADDRESSES_AI' ? 'high' : 'medium',
-      });
-    }
   }
 
   const robots = await fetchText(`${origin}/robots.txt`);
