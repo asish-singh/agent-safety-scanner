@@ -1,0 +1,55 @@
+name: Measurement sweep
+
+# Run a scan on GitHub's servers instead of a laptop.
+# Start it from the repo's Actions tab ("Run workflow"), pick the options,
+# and download the results as an artifact when it finishes.
+on:
+  workflow_dispatch:
+    inputs:
+      list:
+        description: Site list file in the repo (one domain per line)
+        required: true
+        default: render-sample-300.txt
+      render:
+        description: Run each page's JavaScript in a headless browser
+        type: boolean
+        default: true
+      crawl:
+        description: Inner pages to scan per site (0 for homepage only)
+        default: "3"
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install headless browser
+        if: ${{ inputs.render }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Run sweep
+        run: |
+          FLAGS=""
+          if [ "${{ inputs.render }}" = "true" ]; then FLAGS="$FLAGS --render"; fi
+          if [ "${{ inputs.crawl }}" != "0" ]; then FLAGS="$FLAGS --crawl ${{ inputs.crawl }}"; fi
+          node dist/cli.js sweep "${{ inputs.list }}" --out results $FLAGS
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sweep-results
+          path: results/
+          retention-days: 90
