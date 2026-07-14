@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { extractHiddenSegments } from './hidden.js';
 import { classifyText } from './lexicon.js';
+import { extractInternalLinks, parseRobotsDisallows } from './crawl.js';
 import type { Finding, HiddenSegment, ScanResult } from './types.js';
 
 const USER_AGENT =
@@ -74,7 +75,41 @@ async function fetchText(url: string): Promise<{ status: number; body: string; f
   return fetchOnce(url);
 }
 
-export async function scanSite(input: string): Promise<ScanResult> {
+export interface ScanOptions {
+  /** Run the page's JavaScript in a headless browser before scanning. */
+  render?: boolean;
+  /** Follow up to this many same-site links from the homepage and scan those too. */
+  crawl?: number;
+}
+
+/** Fetch a page either raw or through the headless browser. */
+async function fetchPage(
+  url: string,
+  render: boolean
+): Promise<{ status: number; body: string; finalUrl: string } | null> {
+  if (render) {
+    const { renderPage } = await import('./render.js');
+    const rendered = await renderPage(url, USER_AGENT);
+    if (rendered) return rendered;
+    // Rendering can fail on sites that block automation; fall back to raw
+    // HTML so the site still counts as reachable rather than dropping it.
+  }
+  return fetchText(url);
+}
+
+function scanBody(base: ScanResult, page: { status: number; body: string; finalUrl: string }): ScanResult {
+  const segments = extractHiddenSegments(page.body);
+  return {
+    ...base,
+    finalUrl: page.finalUrl,
+    status: page.status,
+    htmlSha256: createHash('sha256').update(page.body).digest('hex'),
+    hiddenSegmentCount: segments.length,
+    findings: segmentsToFindings(segments),
+  };
+}
+
+export async function scanSite(input: string, opts: ScanOptions = {}): Promise<ScanResult> {
   const url = /^https?:\/\//i.test(input) ? input : `https://${input}`;
   const fetchedAt = new Date().toISOString();
   const base: ScanResult = {
@@ -90,20 +125,14 @@ export async function scanSite(input: string): Promise<ScanResult> {
     robotsTxt: { present: false, mentionsAiAgents: false },
   };
 
-  const page = await fetchText(url);
+  if (opts.render) base.rendered = true;
+
+  const page = await fetchPage(url, !!opts.render);
   if (!page || page.status >= 400) {
     return { ...base, status: page?.status ?? null, error: page ? `HTTP ${page.status}` : 'fetch failed' };
   }
 
-  const segments = extractHiddenSegments(page.body);
-  const result: ScanResult = {
-    ...base,
-    finalUrl: page.finalUrl,
-    status: page.status,
-    htmlSha256: createHash('sha256').update(page.body).digest('hex'),
-    hiddenSegmentCount: segments.length,
-    findings: segmentsToFindings(segments),
-  };
+  const result = scanBody(base, page);
 
   const origin = new URL(page.finalUrl.startsWith('http') ? page.finalUrl : url).origin;
 
@@ -116,11 +145,36 @@ export async function scanSite(input: string): Promise<ScanResult> {
     result.llmsTxt.present = true;
   }
 
+  let robotsBody = '';
   const robots = await fetchText(`${origin}/robots.txt`);
   if (robots && robots.status === 200 && !/<html/i.test(robots.body.slice(0, 500))) {
     result.robotsTxt.present = true;
     result.robotsTxt.mentionsAiAgents = /gptbot|claudebot|claude-web|anthropic|perplexitybot|google-extended|ccbot|ai2bot|bytespider|meta-external/i.test(robots.body);
+    robotsBody = robots.body;
   }
 
+  if (!opts.crawl || opts.crawl < 1) return result;
+
+  // Shallow crawl: scan up to opts.crawl inner pages linked from the
+  // homepage, respecting robots.txt. Their findings are folded into the
+  // site's result (with per-page pageResults kept for evidence).
+  const disallows = parseRobotsDisallows(robotsBody);
+  const links = extractInternalLinks(page.body, page.finalUrl, disallows, opts.crawl);
+  const pageResults: ScanResult[] = [];
+  for (const link of links) {
+    const inner = await fetchPage(link, !!opts.render);
+    if (!inner || inner.status >= 400) continue;
+    const innerBase: ScanResult = {
+      ...base,
+      url: link,
+      finalUrl: link,
+      pageOf: input,
+      fetchedAt: new Date().toISOString(),
+      llmsTxt: { present: false, findings: [] },
+      robotsTxt: { present: false, mentionsAiAgents: false },
+    };
+    pageResults.push(scanBody(innerBase, inner));
+  }
+  result.pages = pageResults;
   return result;
 }

@@ -29,7 +29,14 @@ node dist/cli.js scan example.com
 
 # scan a list (one domain per line, or a Tranco "rank,domain" CSV)
 node dist/cli.js sweep sites.txt --out results/
+
+# deeper modes (work on both commands)
+node dist/cli.js scan example.com --render      # run the page's JavaScript first (headless browser)
+node dist/cli.js scan example.com --crawl 3     # also scan up to 3 same-site pages linked from the homepage
+node dist/cli.js sweep sites.txt --out results/ --render --crawl 3
 ```
+
+`--render` uses Playwright (installed with `npx playwright install chromium`) so text created by JavaScript in the browser is scanned too. It falls back to raw HTML when a site blocks automation. `--crawl` respects each site's robots.txt rules and folds inner page findings into the site's result.
 
 The sweep writes `results.jsonl` (every scan) and `findings.jsonl` (only sites with findings), and can be stopped and resumed. Each result stores the exact hidden snippet, its location, which rules matched, a timestamp, and a SHA-256 of the page so any finding can be independently reproduced.
 
@@ -44,7 +51,7 @@ See `RULES.md` for the full rule set, confidence levels, and known false positiv
 ## Design principles
 
 - Detection is fully deterministic. The scanner makes no AI/LLM calls, so running it at any scale is free.
-- The tool undercounts by design (static HTML, homepage only), so any reported prevalence is a floor.
+- The default scan undercounts by design (static HTML, homepage only), so any reported prevalence is a floor. The `--render` and `--crawl` modes close the JavaScript and inner page gaps for targeted samples.
 - Every published finding is human-reviewed first, and described by what it contains, never by intent.
 
 ## Pilot findings so far
@@ -63,4 +70,4 @@ These numbers are a floor, not a ceiling: the scan reads static HTML only, homep
 
 ## Status
 
-Pilot complete. Deciding between publishing the negative result, pivoting to the SEO angle, or extending coverage (JavaScript rendering, multi-page crawl, user-generated content). Tracked in the issues.
+Pilot complete. Direction chosen: extend coverage before publishing. JavaScript rendering (`--render`) and shallow crawling (`--crawl`) are built; a rendered multi-page measurement run is in progress. A sanity check confirmed the gap is real, one JavaScript built site showed 0 hidden segments in raw HTML and 12 once rendered. Remaining work (user generated content sample, non English coverage) is tracked in the issues.

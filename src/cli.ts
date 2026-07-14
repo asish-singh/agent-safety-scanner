@@ -13,20 +13,31 @@ Usage:
   agent-safety-scanner scan <url>                 Scan one site, print JSON
   agent-safety-scanner sweep <list.txt> --out <dir>   Scan a list (one domain per line)
 
+Options (both commands):
+  --render      Run each page's JavaScript in a headless browser first (slower, deeper)
+  --crawl <n>   Also scan up to n same-site pages linked from the homepage
+
 Sweep writes results.jsonl (every scan) and findings.jsonl (only scans with findings).`);
   process.exit(1);
 }
 
+/** Findings across the homepage and any crawled inner pages. */
+function allFindings(r: ScanResult) {
+  return [...r.findings, ...(r.pages ?? []).flatMap((p) => p.findings)];
+}
+
 function summarize(r: ScanResult): string {
   if (r.error) return `ERR   ${r.url} (${r.error})`;
-  const high = r.findings.filter((f) => f.confidence === 'high').length;
-  const med = r.findings.filter((f) => f.confidence === 'medium').length;
-  const info = r.findings.filter((f) => f.confidence === 'info').length;
+  const fs = allFindings(r);
+  const high = fs.filter((f) => f.confidence === 'high').length;
+  const med = fs.filter((f) => f.confidence === 'medium').length;
+  const info = fs.filter((f) => f.confidence === 'info').length;
   const marks = [
     high ? `HIGH:${high}` : '',
     med ? `med:${med}` : '',
     info ? `info:${info}` : '',
     r.llmsTxt.present ? 'llms.txt' : '',
+    r.pages ? `pages:${r.pages.length + 1}` : '',
   ].filter(Boolean).join(' ');
   return `${high ? 'FLAG ' : 'ok   '} ${r.url} ${marks}`;
 }
@@ -35,9 +46,15 @@ async function main() {
   const [cmd, target, ...rest] = process.argv.slice(2);
   if (!cmd || !target) usage();
 
+  const render = rest.includes('--render');
+  const crawlIdx = rest.indexOf('--crawl');
+  const crawl = crawlIdx !== -1 ? Math.max(0, parseInt(rest[crawlIdx + 1], 10) || 0) : 0;
+  const opts = { render, crawl };
+
   if (cmd === 'scan') {
-    const result = await scanSite(target);
+    const result = await scanSite(target, opts);
     console.log(JSON.stringify(result, null, 2));
+    if (render) (await import('./render.js')).closeBrowser();
     return;
   }
 
@@ -62,7 +79,9 @@ async function main() {
       .map((l) => l.trim().replace(/^\d+,/, '')) // accept tranco CSV "rank,domain"
       .filter((l) => l && !l.startsWith('#') && !done.has(l));
 
-    console.log(`Sweeping ${domains.length} sites (${done.size} already done), concurrency ${CONCURRENCY}`);
+    // Browser rendering is heavy; keep fewer pages open at once in that mode.
+    const concurrency = render ? 4 : CONCURRENCY;
+    console.log(`Sweeping ${domains.length} sites (${done.size} already done), concurrency ${concurrency}${render ? ', rendered' : ''}${crawl ? `, crawl ${crawl}` : ''}`);
     let scanned = 0;
     let flagged = 0;
     const queue = [...domains];
@@ -70,19 +89,20 @@ async function main() {
       for (;;) {
         const domain = queue.shift();
         if (!domain) return;
-        const r = await scanSite(domain);
+        const r = await scanSite(domain, opts);
         appendFileSync(resultsPath, JSON.stringify(r) + '\n');
-        if (r.findings.length || r.llmsTxt.findings.length) {
+        if (allFindings(r).length || r.llmsTxt.findings.length) {
           appendFileSync(findingsPath, JSON.stringify(r) + '\n');
-          if (r.findings.some((f) => f.confidence === 'high')) flagged++;
+          if (allFindings(r).some((f) => f.confidence === 'high')) flagged++;
         }
         scanned++;
-        if (scanned % 25 === 0 || r.findings.some((f) => f.confidence === 'high')) {
+        if (scanned % 25 === 0 || allFindings(r).some((f) => f.confidence === 'high')) {
           console.log(`[${scanned}/${domains.length}] ${summarize(r)}`);
         }
       }
     };
-    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    await Promise.all(Array.from({ length: concurrency }, worker));
+    if (render) await (await import('./render.js')).closeBrowser();
     console.log(`Done. ${scanned} scanned, ${flagged} with high-confidence findings.`);
     console.log(`Results: ${resultsPath}\nFindings: ${findingsPath}`);
     return;

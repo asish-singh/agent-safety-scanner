@@ -51,6 +51,10 @@ export interface Finding {
 
 export interface ScanResult {
   url: string;
+  /** True when the page was rendered in a headless browser before scanning. */
+  rendered?: boolean;
+  /** Set on crawled inner pages: the domain whose homepage led here. */
+  pageOf?: string;
   finalUrl: string;
   fetchedAt: string;
   status: number | null;
@@ -61,4 +65,6 @@ export interface ScanResult {
   findings: Finding[];
   llmsTxt: { present: boolean; findings: Finding[] };
   robotsTxt: { present: boolean; mentionsAiAgents: boolean };
+  /** Crawl mode only: per-page results for inner pages scanned on this site. */
+  pages?: ScanResult[];
 }
