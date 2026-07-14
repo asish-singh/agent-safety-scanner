@@ -20,19 +20,29 @@ Warnings about hidden prompt injection on the web are common, but they usually r
 
 The scanner is a small open source command line tool in this repository. Three properties matter for trusting the numbers.
 
-**A finding requires two things at once.** A page is only flagged when text is concealed from human view by a genuine hiding technique **and** that text is written to influence an AI (addressing it directly, or steering what it recommends). Hidden text alone is never flagged, which matters because legitimate hidden text is everywhere (screen reader labels, collapsed menus, cookie banners). The scanner recognizes 13 hiding channels and classifies the content of each hidden segment against a tiered lexicon. Standard accessibility patterns are explicitly discounted so they can never inflate the headline numbers.
+### A finding requires two things at once
 
-**Detection is deterministic.** No AI model is involved in scanning. Every rule has an identifier, a rationale, and documented false positives (see RULES.md). The same input always produces the same output, so every number here can be reproduced.
+A page is only flagged when text is concealed from human view by a genuine hiding technique **and** that text is written to influence an AI (addressing it directly, or steering what it recommends). Hidden text alone is never flagged, which matters because legitimate hidden text is everywhere (screen reader labels, collapsed menus, cookie banners). The scanner recognizes 13 hiding channels and classifies the content of each hidden segment against a tiered lexicon. Standard accessibility patterns are explicitly discounted so they can never inflate the headline numbers.
 
-**Accuracy is tested.** Against a labeled corpus of 21 pages (9 known injections, 12 clean pages chosen to be deliberately tricky, including screen reader markup, legacy SEO spam, and visible AI marketing copy) the scanner scores precision 1.00 and recall 1.00 with zero false positives. Run `npm test` to reproduce.
+### Detection is deterministic
+
+No AI model is involved in scanning. Every rule has an identifier, a rationale, and documented false positives (see RULES.md). The same input always produces the same output, so every number here can be reproduced.
+
+### Accuracy is tested
+
+Against a labeled corpus of 21 pages (9 known injections, 12 clean pages chosen to be deliberately tricky, including screen reader markup, legacy SEO spam, and visible AI marketing copy) the scanner scores precision 1.00 and recall 1.00 with zero false positives. Run `npm test` to reproduce.
 
 ### What was scanned
 
 All samples come from the Tranco top million list dated 14 July 2026, which is citable and freely available. Two phases.
 
-**Phase 1, breadth (raw HTML, homepages).** Three slices of 1,000 domains each, from the top of the ranking, the middle near rank 500,000, and the bottom near rank 1,000,000.
+### Phase 1, breadth (raw HTML, homepages)
 
-**Phase 2, depth (rendered, multiple pages).** The scanner gained a headless browser mode, so text created by JavaScript in the browser is scanned too, and a shallow crawler that follows up to three same site links from the homepage, honoring robots.txt. This phase deliberately targeted the surfaces where hidden manipulation is most plausible.
+Three slices of 1,000 domains each, from the top of the ranking, the middle near rank 500,000, and the bottom near rank 1,000,000.
+
+### Phase 2, depth (rendered, multiple pages)
+
+The scanner gained a headless browser mode, so text created by JavaScript in the browser is scanned too, and a shallow crawler that follows up to three same site links from the homepage, honoring robots.txt. This phase deliberately targeted the surfaces where hidden manipulation is most plausible.
 
 - A rescan of 300 of the middle ranked domains from phase 1, to isolate what deeper scanning adds on identical sites.
 - 1,000 domains whose names indicate forums, boards, and communities, so the crawled inner pages land on content written by users rather than site owners.
