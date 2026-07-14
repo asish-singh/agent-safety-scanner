@@ -1,7 +1,7 @@
 {
   "name": "agent-safety-scanner",
   "version": "1.0.0",
-  "description": "<What this project is and why it exists.>",
+  "description": "Scans websites for hidden text aimed at AI agents. Powers a reproducible prevalence study.",
   "main": "index.js",
   "scripts": {
     "test": "vitest run",
