@@ -66,8 +66,18 @@ Three slices of the Tranco top-million were sampled (most popular, middle around
 
 Across roughly 1,640 reachable sites and 52,000 pieces of hidden text, hidden instructions aimed at AI agents appeared zero times, and the rate did not rise down-market. The rare hidden text mentioning AI turned out to be ordinary news content, not instructions. The genuine, measurable signal is legacy hidden SEO keyword stuffing, which AI systems now read.
 
-These numbers are a floor, not a ceiling: the scan reads static HTML only, homepages only, and English phrasings only. See the open issues for planned work to close those gaps.
+### Extended coverage (rendered, multi-page)
+
+The pilot's blind spots were then closed and the same question asked again, this time with JavaScript rendered in a headless browser and up to 3 inner pages scanned per site, on samples chosen to maximize the chance of finding manipulation:
+
+| Sample | Reachable | Pages scanned | Hidden segments | Hidden AI manipulation | Legacy hidden SEO |
+|--------|-----------|---------------|-----------------|------------------------|-------------------|
+| Middle 300 (rescan of pilot domains) | 199 | 671 | ~21,500 | 0 | 278 |
+| User generated content 1,000 (forums, boards, communities) | 702 | 2,521 | ~75,900 | 0 | 1,045 |
+| High risk 1,000 (piracy and free streaming style names, lower half) | 490 | 1,441 | ~32,600 | 0 | 133 |
+
+The zero held everywhere. Cumulatively, roughly 3,000 reachable sites and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. The remaining known limit is English only content patterns.
 
 ## Status
 
-Pilot complete. Direction chosen: extend coverage before publishing. JavaScript rendering (`--render`) and shallow crawling (`--crawl`) are built; a rendered multi-page measurement run is in progress. A sanity check confirmed the gap is real, one JavaScript built site showed 0 hidden segments in raw HTML and 12 once rendered. Remaining work (user generated content sample, non English coverage) is tracked in the issues.
+Measurement complete across raw and rendered scans, homepages and inner pages, popular, mid ranked, community, and high risk sites. Next step is the written study and the published dataset. Tracked in the issues.
