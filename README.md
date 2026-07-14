@@ -78,6 +78,10 @@ The pilot's blind spots were then closed and the same question asked again, this
 
 The zero held everywhere. Cumulatively, roughly 3,000 reachable sites and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. The remaining known limit is English only content patterns.
 
+## The study
+
+The full written study, method, results, and limitations, lives in [STUDY.md](STUDY.md).
+
 ## Status
 
 Measurement complete across raw and rendered scans, homepages and inner pages, popular, mid ranked, community, and high risk sites. Next step is the written study and the published dataset. Tracked in the issues.
