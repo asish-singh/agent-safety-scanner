@@ -80,7 +80,7 @@ The zero held everywhere. Cumulatively, roughly 3,000 reachable sites and over 1
 
 ## The study
 
-The full written study, method, results, and limitations, lives in [STUDY.md](STUDY.md).
+The full written study, method, results, and limitations, lives in [STUDY.md](STUDY.md). The published dataset, aggregate results and the exact domain lists for every sample, lives in [data/](data/).
 
 ## Status
 

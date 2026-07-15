@@ -85,7 +85,7 @@ Honest floors on the zero.
 
 ## Reproducing this study
 
-Everything needed is in this repository. The scanner, the rule documentation, the labeled accuracy corpus, the exact domain lists for every sample, and a GitHub Actions workflow that runs sweeps on free infrastructure. See the README for commands. The scanner makes no AI calls, so reproduction costs nothing.
+Everything needed is in this repository. The scanner, the rule documentation, the labeled accuracy corpus, the exact domain lists for every sample, and a GitHub Actions workflow that runs sweeps on free infrastructure. The published dataset lives in [data/](data/), aggregate results for every sample in `summary.json` plus the exact domain lists, with a note on why per site results are reported only in aggregate. See the README for commands. The scanner makes no AI calls, so reproduction costs nothing.
 
 ## Responsible handling
 

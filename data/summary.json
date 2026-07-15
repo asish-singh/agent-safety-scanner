@@ -1,0 +1,146 @@
+{
+  "_definitions": {
+    "reachableDomains": "domains whose homepage returned HTTP 200 with no fetch error",
+    "pagesScanned": "page fetches (homepage plus crawled inner pages) that returned HTTP 200 with no fetch error",
+    "hiddenSegmentsExtracted": "every hidden text segment extracted across all fetched pages, whether or not it matched the content lexicon",
+    "findingsByTier": "TIER_A addresses a machine, TIER_B steers recommendations, SEO_LEGACY is old style hidden keyword stuffing; hidden AI manipulation means TIER_A or TIER_B, which is zero in every sample",
+    "source": "phase 1 from local sweep output, phase 2 from GitHub Actions Measurement sweep artifacts (runs 29329058905, 29331413812, 29331416334, 29331418844, 29331421688)",
+    "tranco_list_date": "2026-07-14"
+  },
+  "top-1000": {
+    "domainList": "domain-lists/top-1000.txt",
+    "sampleDescription": "1 to 1,000",
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 1000,
+    "reachableDomains": 525,
+    "pagesScanned": 525,
+    "hiddenSegmentsExtracted": 17151,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 87,
+    "findingsByTier": {
+      "SEO_LEGACY": 87
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 43,
+      "H02_VISIBILITY_HIDDEN": 16,
+      "H07_HTML_COMMENT": 4,
+      "H04_ZERO_OPACITY": 5,
+      "H06_COLOR_MATCH": 17,
+      "H12_HIDDEN_ATTR": 2
+    }
+  },
+  "middle-1000": {
+    "domainList": "domain-lists/middle-1000.txt",
+    "sampleDescription": "499,001 to 500,000",
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 1000,
+    "reachableDomains": 593,
+    "pagesScanned": 593,
+    "hiddenSegmentsExtracted": 17488,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 137,
+    "findingsByTier": {
+      "SEO_LEGACY": 137
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 84,
+      "H02_VISIBILITY_HIDDEN": 19,
+      "H07_HTML_COMMENT": 15,
+      "H03_ZERO_FONT": 3,
+      "H04_ZERO_OPACITY": 8,
+      "H12_HIDDEN_ATTR": 8
+    }
+  },
+  "bottom-1000": {
+    "domainList": "domain-lists/bottom-1000.txt",
+    "sampleDescription": "999,001 to 1,000,000",
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 1000,
+    "reachableDomains": 595,
+    "pagesScanned": 595,
+    "hiddenSegmentsExtracted": 17586,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 66,
+    "findingsByTier": {
+      "SEO_LEGACY": 66
+    },
+    "findingsByChannel": {
+      "H07_HTML_COMMENT": 9,
+      "H01_DISPLAY_NONE": 34,
+      "H04_ZERO_OPACITY": 2,
+      "H02_VISIBILITY_HIDDEN": 7,
+      "H03_ZERO_FONT": 2,
+      "H12_HIDDEN_ATTR": 12
+    }
+  },
+  "middle-300-rendered": {
+    "domainList": "domain-lists/render-sample-300.txt",
+    "sampleDescription": "first 300 of the middle-1000 sample",
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 300,
+    "reachableDomains": 199,
+    "pagesScanned": 671,
+    "hiddenSegmentsExtracted": 21482,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 278,
+    "findingsByTier": {
+      "SEO_LEGACY": 278
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 168,
+      "H04_ZERO_OPACITY": 16,
+      "H02_VISIBILITY_HIDDEN": 31,
+      "H07_HTML_COMMENT": 25,
+      "H06_COLOR_MATCH": 8,
+      "H12_HIDDEN_ATTR": 12,
+      "H10_HIDDEN_INPUT": 14,
+      "H03_ZERO_FONT": 4
+    }
+  },
+  "ugc-1000-rendered": {
+    "domainList": "domain-lists/ugc-1000.txt",
+    "sampleDescription": "forum, board, and community domain names across the full list",
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 1000,
+    "reachableDomains": 701,
+    "pagesScanned": 2516,
+    "hiddenSegmentsExtracted": 75939,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 1045,
+    "findingsByTier": {
+      "SEO_LEGACY": 1045
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 261,
+      "H02_VISIBILITY_HIDDEN": 34,
+      "H03_ZERO_FONT": 648,
+      "H07_HTML_COMMENT": 46,
+      "H05_OFFSCREEN": 10,
+      "H04_ZERO_OPACITY": 14,
+      "H06_COLOR_MATCH": 4,
+      "H12_HIDDEN_ATTR": 28
+    }
+  },
+  "highrisk-1000-rendered": {
+    "domainList": "domain-lists/shady-1000.txt",
+    "sampleDescription": "piracy and streaming style names, lower half of the list",
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 1000,
+    "reachableDomains": 490,
+    "pagesScanned": 1440,
+    "hiddenSegmentsExtracted": 32601,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 133,
+    "findingsByTier": {
+      "SEO_LEGACY": 133
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 97,
+      "H07_HTML_COMMENT": 14,
+      "H04_ZERO_OPACITY": 1,
+      "H12_HIDDEN_ATTR": 7,
+      "H05_OFFSCREEN": 2,
+      "H02_VISIBILITY_HIDDEN": 12
+    }
+  }
+}
