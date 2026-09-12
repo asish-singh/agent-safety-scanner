@@ -16,6 +16,10 @@ This directory holds everything needed to verify or reproduce the numbers in [ST
 | User generated content 1,000 | `ugc-1000.txt` | rendered, up to 3 inner pages |
 | High risk 1,000 | `shady-1000.txt` | rendered, up to 3 inner pages |
 
+## Overlaps between lists
+
+The six lists total 5,300 domains but only 4,991 distinct domains. `render-sample-300.txt` is the first 300 lines of `middle-1000.txt`. Two domains in `ugc-1000.txt` (steamcommunity.com, weforum.org) also appear in `top-1000.txt`, and seven domains in `shady-1000.txt` also appear in `middle-1000.txt`. Reachable site scans sum to 3,103 across the six samples; 2,913 distinct sites were reachable. The `_distinct` block in `summary.json` records these figures. Line endings in every list are now Unix style, so `sort -u` and `comm` give correct results.
+
 ## Why per site results are not published
 
 The scanner records which sites carry legacy hidden SEO text. Publishing that as a list would read as a public accusation aimed at named sites, which this study deliberately avoids (see the responsible handling section of STUDY.md). The dataset therefore reports aggregates only.

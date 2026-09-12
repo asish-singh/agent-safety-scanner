@@ -84,6 +84,8 @@ async function main() {
     console.log(`Sweeping ${domains.length} sites (${done.size} already done), concurrency ${concurrency}${render ? ', rendered' : ''}${crawl ? `, crawl ${crawl}` : ''}`);
     let scanned = 0;
     let flagged = 0;
+    let renderedPages = 0;
+    let fallbackPages = 0;
     const queue = [...domains];
     const worker = async () => {
       for (;;) {
@@ -95,6 +97,12 @@ async function main() {
           appendFileSync(findingsPath, JSON.stringify(r) + '\n');
           if (allFindings(r).some((f) => f.confidence === 'high')) flagged++;
         }
+        if (render) {
+          for (const p of [r, ...(r.pages ?? [])]) {
+            if (p.rendered) renderedPages++;
+            if (p.renderFallback) fallbackPages++;
+          }
+        }
         scanned++;
         if (scanned % 25 === 0 || allFindings(r).some((f) => f.confidence === 'high')) {
           console.log(`[${scanned}/${domains.length}] ${summarize(r)}`);
@@ -104,6 +112,7 @@ async function main() {
     await Promise.all(Array.from({ length: concurrency }, worker));
     if (render) await (await import('./render.js')).closeBrowser();
     console.log(`Done. ${scanned} scanned, ${flagged} with high-confidence findings.`);
+    if (render) console.log(`Rendered: ${renderedPages} pages, fell back to raw HTML: ${fallbackPages} pages.`);
     console.log(`Results: ${resultsPath}\nFindings: ${findingsPath}`);
     return;
   }

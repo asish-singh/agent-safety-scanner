@@ -47,6 +47,9 @@ export interface Finding {
    * 'info'   – Tier C and SEO_LEGACY (reported, never counted as manipulation)
    */
   confidence: 'high' | 'medium' | 'info';
+  /** Set when this finding came from decoding the segment text, not the
+   * plain text itself (the plain text classified as NONE). */
+  decoded?: { method: 'base64' | 'rot13'; text: string };
 }
 
 export interface ScanResult {
@@ -62,9 +65,15 @@ export interface ScanResult {
   error: string | null;
   /** Every hidden segment extracted, whether or not it matched the lexicon. */
   hiddenSegmentCount: number;
+  /** Hidden segments where a base64/ROT13 decode attempt produced plausible
+   * text, regardless of whether it went on to classify as anything. */
+  decodedSegmentCount: number;
   findings: Finding[];
   llmsTxt: { present: boolean; findings: Finding[] };
   robotsTxt: { present: boolean; mentionsAiAgents: boolean };
+  /** True when rendering was requested but the headless browser failed and
+   * this page fell back to raw HTML. */
+  renderFallback?: boolean;
   /** Crawl mode only: per-page results for inner pages scanned on this site. */
   pages?: ScanResult[];
 }

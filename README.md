@@ -10,9 +10,9 @@ Measured against a labeled test set of 21 pages (9 known injections, 12 clean pa
 
 | Metric | Value |
 |--------|-------|
-| Precision (flagged pages that are real) | 1.00 |
-| Recall (real injections caught) | 1.00 |
-| False positives on clean pages | 0 |
+| Precision (flagged pages that are real) | 1.00 (9 flagged, 9 real) |
+| Recall (real injections caught) | 1.00 (9 of 9) |
+| False positives on clean pages | 0 of 12 |
 
 Run `npm test` to reproduce. The test set lives in `test/corpus.ts`.
 
@@ -64,7 +64,7 @@ Three slices of the Tranco top-million were sampled (most popular, middle around
 | Middle 1,000 | 593 | ~17,500 | 0 | 137 | 81 |
 | Bottom 1,000 | 595 | ~17,600 | 0 | 66 | 72 |
 
-Across roughly 1,640 reachable sites and 52,000 pieces of hidden text, hidden instructions aimed at AI agents appeared zero times, and the rate did not rise down-market. The rare hidden text mentioning AI turned out to be ordinary news content, not instructions. The genuine, measurable signal is legacy hidden SEO keyword stuffing, which AI systems now read.
+Across 1,713 reachable sites and roughly 52,000 pieces of hidden text, hidden instructions aimed at AI agents appeared zero times, and the rate did not rise down-market. The rare hidden text mentioning AI turned out to be ordinary news content, not instructions. The genuine, measurable signal is legacy hidden SEO keyword stuffing, which AI systems now read.
 
 ### Extended coverage (rendered, multi-page)
 
@@ -73,10 +73,10 @@ The pilot's blind spots were then closed and the same question asked again, this
 | Sample | Reachable | Pages scanned | Hidden segments | Hidden AI manipulation | Legacy hidden SEO |
 |--------|-----------|---------------|-----------------|------------------------|-------------------|
 | Middle 300 (rescan of pilot domains) | 199 | 671 | ~21,500 | 0 | 278 |
-| User generated content 1,000 (forums, boards, communities) | 702 | 2,521 | ~75,900 | 0 | 1,045 |
-| High risk 1,000 (piracy and free streaming style names, lower half) | 490 | 1,441 | ~32,600 | 0 | 133 |
+| User generated content 1,000 (forums, boards, communities) | 701 | 2,516 | ~75,900 | 0 | 1,045 |
+| High risk 1,000 (piracy and free streaming style names, lower half) | 490 | 1,440 | ~32,600 | 0 | 133 |
 
-The zero held everywhere. Cumulatively, roughly 3,000 reachable sites and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. The remaining known limit is English only content patterns.
+The zero held everywhere. Cumulatively, 2,913 distinct reachable sites (3,103 reachable site scans, since the middle 300 were scanned in both phases) and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. Known limits, including English only content patterns, are listed in STUDY.md.
 
 ## The study
 

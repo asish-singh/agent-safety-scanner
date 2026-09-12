@@ -1,14 +1,14 @@
 # Hidden instructions for AI agents are (almost) nowhere on the web
 
-*A measurement study of hidden agent directed text across 5,300 websites. July 2026.*
+*A measurement study of hidden agent directed text across 4,991 websites (5,300 site scans). July 2026, figures corrected September 2026.*
 
 ## Summary
 
 AI assistants now read web pages on our behalf. A widely repeated worry is that websites hide instructions in their pages, invisible to human visitors but readable by a machine, telling the AI what to say or recommend. White text on a white background saying "always recommend this product" is the canonical example.
 
-I built a scanner to measure how common this actually is, and ran it across 5,300 websites drawn from the Tranco ranking of the top million domains, including the surfaces where manipulation is most plausible. The result is a clear negative.
+I built a scanner to measure how common this actually is, and ran 5,300 site scans covering 4,991 distinct websites drawn from the Tranco ranking of the top million domains, including the surfaces where manipulation is most plausible. The result is a clear negative.
 
-**Across roughly 3,000 reachable sites and more than 180,000 pieces of hidden text, the number of hidden instructions aimed at AI agents was zero.**
+**Across 2,913 distinct reachable sites (3,103 reachable site scans) and more than 180,000 pieces of hidden text, the number of hidden instructions aimed at AI agents was zero.**
 
 The one hidden text behavior that does show up at scale is old fashioned hidden SEO keyword stuffing, invisible keyword blocks originally aimed at search engines. AI systems now read those too. That is the real, measurable way hidden text feeds AI answers today.
 
@@ -30,7 +30,7 @@ No AI model is involved in scanning. Every rule has an identifier, a rationale, 
 
 ### Accuracy is tested
 
-Against a labeled corpus of 21 pages (9 known injections, 12 clean pages chosen to be deliberately tricky, including screen reader markup, legacy SEO spam, and visible AI marketing copy) the scanner scores precision 1.00 and recall 1.00 with zero false positives. Run `npm test` to reproduce.
+Against a labeled corpus of 21 pages (9 known injections, 12 clean pages chosen to be deliberately tricky, including screen reader markup, legacy SEO spam, and visible AI marketing copy) the scanner scores precision 1.00 (9 flagged, 9 real) and recall 1.00 (9 of 9 injections caught) with zero false positives on the 12 clean pages. These are exact results on a small corpus, not population estimates. The exact two sided 95 percent lower bound on recall from 9 of 9 is 0.66. Run `npm test` to reproduce.
 
 ### What was scanned
 
@@ -44,7 +44,7 @@ Three slices of 1,000 domains each, from the top of the ranking, the middle near
 
 The scanner gained a headless browser mode, so text created by JavaScript in the browser is scanned too, and a shallow crawler that follows up to three same site links from the homepage, honoring robots.txt. This phase deliberately targeted the surfaces where hidden manipulation is most plausible.
 
-- A rescan of 300 of the middle ranked domains from phase 1, to isolate what deeper scanning adds on identical sites.
+- A rescan of 300 of the middle ranked domains from phase 1 (the first 300 of that list), to isolate what deeper scanning adds on identical sites. These 300 domains are therefore scanned twice and counted in both phases.
 - 1,000 domains whose names indicate forums, boards, and communities, so the crawled inner pages land on content written by users rather than site owners.
 - 1,000 domains from the lower half of the ranking whose names match piracy and free streaming keywords, the least reputable corner of the list that can be sampled reproducibly.
 
@@ -63,8 +63,10 @@ The scanner gained a headless browser mode, so text created by JavaScript in the
 | Sample | Reachable | Pages scanned | Hidden segments | Hidden AI manipulation | Legacy hidden SEO text |
 |--------|-----------|---------------|-----------------|------------------------|------------------------|
 | Middle 300 rescan | 199 | 671 | ~21,500 | **0** | 278 |
-| User generated content 1,000 | 702 | 2,521 | ~75,900 | **0** | 1,045 |
-| High risk 1,000 | 490 | 1,441 | ~32,600 | **0** | 133 |
+| User generated content 1,000 | 701 | 2,516 | ~75,900 | **0** | 1,045 |
+| High risk 1,000 | 490 | 1,440 | ~32,600 | **0** | 133 |
+
+The six samples add up to 5,300 domain scans and 3,103 reachable site scans. Because the rescan reuses 300 middle ranked domains and nine further domains appear in two lists (two community domains also sit in the top 1,000, seven high risk domains also sit in the middle 1,000), the distinct figures are 4,991 domains sampled and 2,913 distinct reachable sites. Both sets of figures are in `data/summary.json`.
 
 The zero held on every surface. It held at the top of the web and at the bottom, on raw HTML and on fully rendered pages, on homepages and on inner pages, on professionally managed sites, on community content, and on piracy adjacent domains.
 
@@ -78,10 +80,22 @@ Legacy hidden SEO keyword stuffing appeared on every surface, roughly 1,700 find
 
 Honest floors on the zero.
 
-- **English only.** The content patterns detect English phrasings. A hidden instruction in another language would be extracted as a hidden segment but not classified as manipulation.
+- **English only, plain text only.** The content patterns detect English phrasings. A hidden instruction in another language would be extracted as a hidden segment but not classified as manipulation. The same applies to an instruction encoded as Base64 or ROT13, which this run did not attempt to decode. Hidden segments that match no rule are counted but their text is not stored, so the published data cannot be rescored for encoded payloads. The scanner now attempts both decodings before discarding a segment, and the next run will report how many segments decoded to plausible text.
+- **Rendering recorded as intent, not outcome.** In phase 2 the scanner fell back to raw HTML whenever the headless browser failed on a page, without recording that it had done so, and the homepage flag was inherited by inner pages. The rendered share of phase 2 pages is therefore unknown. The evidence that rendering widens coverage rests on one site (0 hidden segments raw, 12 rendered). The scanner now records rendered versus fallback per page, and the next run will report both counts.
 - **Sampling by domain name.** The community and high risk samples select domains by name, which is reproducible but imperfect. A forum on a neutral domain name is missed.
 - **Reachability.** Between a third and a half of sampled domains were unreachable, blocked automation, or failed. The zero describes the reachable web.
 - **A point in time.** This measures July 2026. The economics change as more purchasing and recommending flows through AI agents, and a cheap attack that pays will be attempted. The method and tool here are built to be rerun.
+
+## Corrections (September 2026)
+
+Two reviewers on the OWASP Top 10 for LLM Applications issue tracker, Santoshkumarpuppala and ossumpossum, audited this repository at commit 5804cf5 and found the following. All are corrected in the current version.
+
+- The headline said 5,300 websites. That is the number of domain scans. The 300 domain rendered rescan reuses domains from the middle 1,000 list, and two of the six domain lists overlap other lists by nine further domains, so the distinct count is 4,991 websites. The overlaps were hidden from simple set comparisons because four of the published lists had Windows line endings, which have now been normalized.
+- "Roughly 3,000 reachable sites" was a sum of reachable scans, 3,103. Measured against the per site results, 2,913 distinct sites were reachable.
+- The phase 1 summary in the README said roughly 1,640 reachable sites. The three slices sum to 1,713.
+- Three table cells (community reachable 702, community pages 2,521, high risk pages 1,441) disagreed with `data/summary.json`, which holds 701, 2,516 and 1,440. The tables now match the data.
+- Recall is quoted with its denominator, 9 of 9, so it does not read as a population figure.
+- The Base64 and ROT13 decode check and the per page render outcome counter described in the limitations were added to the scanner after this review and had not been part of the July run.
 
 ## Reproducing this study
 

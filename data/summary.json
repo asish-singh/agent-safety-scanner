@@ -7,6 +7,18 @@
     "source": "phase 1 from local sweep output, phase 2 from GitHub Actions Measurement sweep artifacts (runs 29329058905, 29331413812, 29331416334, 29331418844, 29331421688)",
     "tranco_list_date": "2026-07-14"
   },
+  "_distinct": {
+    "note": "The per sample figures above count scans. Distinct figures below deduplicate domains that appear in more than one list. Added September 2026 after external review.",
+    "domainScans": 5300,
+    "distinctDomainsSampled": 4991,
+    "reachableSiteScans": 3103,
+    "distinctReachableSites": 2913,
+    "listOverlaps": {
+      "middle-1000 x render-sample-300": 300,
+      "top-1000 x ugc-1000": 2,
+      "middle-1000 x shady-1000": 7
+    }
+  },
   "top-1000": {
     "domainList": "domain-lists/top-1000.txt",
     "sampleDescription": "1 to 1,000",
