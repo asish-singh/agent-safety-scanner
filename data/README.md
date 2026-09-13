@@ -16,6 +16,10 @@ This directory holds everything needed to verify or reproduce the numbers in [ST
 | User generated content 1,000 | `ugc-1000.txt` | rendered, up to 3 inner pages |
 | High risk 1,000 | `shady-1000.txt` | rendered, up to 3 inner pages |
 
+## Second run, September 2026
+
+`summary-2026-09.json` holds the same aggregates for a rerun of all six lists on 13 September 2026 with scanner commit ae64677, plus the two counters added after external review, decoded segments and rendered versus fallback pages. Each sample entry carries the GitHub Actions run id whose `sweep-results` artifact holds the raw per site rows (90 day retention).
+
 ## Overlaps between lists
 
 The six lists total 5,300 domains but only 4,991 distinct domains. `render-sample-300.txt` is the first 300 lines of `middle-1000.txt`. Two domains in `ugc-1000.txt` (steamcommunity.com, weforum.org) also appear in `top-1000.txt`, and seven domains in `shady-1000.txt` also appear in `middle-1000.txt`. Reachable site scans sum to 3,103 across the six samples; 2,913 distinct sites were reachable. The `_distinct` block in `summary.json` records these figures. Line endings in every list are now Unix style, so `sort -u` and `comm` give correct results.

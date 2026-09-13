@@ -1,0 +1,192 @@
+{
+  "_definitions": {
+    "run": "second run of the same six domain lists on 13 September 2026, scanner commit ae64677, six sweeps on GitHub Actions (Measurement sweep workflow), one per list",
+    "reachableDomains": "domains whose homepage returned HTTP 200 with no fetch error",
+    "pagesScanned": "page fetches (homepage plus crawled inner pages) that returned HTTP 200 with no fetch error",
+    "hiddenSegmentsExtracted": "every hidden text segment extracted across all counted pages, whether or not it matched the content lexicon",
+    "decodedSegments": "hidden segments whose text decoded as Base64 or ROT13 to plausible text and was then classified",
+    "decodedFindings": "findings produced from decoded text in any tier; zero in every sample",
+    "renderedPages": "counted pages the headless browser actually rendered; renderFallbackPages are counted pages where rendering was requested, failed, and raw HTML was scanned instead",
+    "findingsByTier": "A_ADDRESSES_AI addresses a machine, B_STEERS_BEHAVIOR steers recommendations, SEO_LEGACY is old style hidden keyword stuffing; hidden AI manipulation means tier A or B",
+    "note": "the middle-1000 sweep wrote 999 of 1,000 result rows (ugc.ac.lk has no row), so domainsSampled is 999 for that sample",
+    "tranco_list_date": "2026-07-14"
+  },
+  "_distinct": {
+    "domainScans": 5299,
+    "distinctDomainsSampled": 4990,
+    "reachableSiteScans": 3101,
+    "distinctReachableSites": 2924,
+    "pagesScanned": 6279,
+    "hiddenSegmentsExtracted": 178619,
+    "decodedSegments": 1634,
+    "decodedFindings": 0,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 1107,
+    "renderedPages": 4531,
+    "renderFallbackPages": 17
+  },
+  "top-1000": {
+    "domainList": "domain-lists/top-1000.txt",
+    "actionsRunId": 34727140641,
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 1000,
+    "reachableDomains": 546,
+    "pagesScanned": 546,
+    "hiddenSegmentsExtracted": 16520,
+    "decodedSegments": 22,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 56,
+    "findingsByTier": {
+      "SEO_LEGACY": 56
+    },
+    "findingsByChannel": {
+      "H12_HIDDEN_ATTR": 3,
+      "H01_DISPLAY_NONE": 28,
+      "H02_VISIBILITY_HIDDEN": 15,
+      "H04_ZERO_OPACITY": 6,
+      "H07_HTML_COMMENT": 3,
+      "H13_CLIP_RECT": 1
+    },
+    "renderedPages": 0,
+    "renderFallbackPages": 0,
+    "decodedFindings": 0
+  },
+  "middle-1000": {
+    "domainList": "domain-lists/middle-1000.txt",
+    "actionsRunId": 34727142250,
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 999,
+    "reachableDomains": 602,
+    "pagesScanned": 602,
+    "hiddenSegmentsExtracted": 16745,
+    "decodedSegments": 48,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 117,
+    "findingsByTier": {
+      "SEO_LEGACY": 117
+    },
+    "findingsByChannel": {
+      "H02_VISIBILITY_HIDDEN": 22,
+      "H07_HTML_COMMENT": 17,
+      "H01_DISPLAY_NONE": 59,
+      "H04_ZERO_OPACITY": 8,
+      "H12_HIDDEN_ATTR": 4,
+      "H03_ZERO_FONT": 4,
+      "H09_ALT_TITLE_PROSE": 3
+    },
+    "renderedPages": 0,
+    "renderFallbackPages": 0,
+    "decodedFindings": 0
+  },
+  "bottom-1000": {
+    "domainList": "domain-lists/bottom-1000.txt",
+    "actionsRunId": 34727144000,
+    "scanMode": "raw HTML, homepage only",
+    "domainsSampled": 1000,
+    "reachableDomains": 583,
+    "pagesScanned": 583,
+    "hiddenSegmentsExtracted": 17635,
+    "decodedSegments": 23,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 65,
+    "findingsByTier": {
+      "SEO_LEGACY": 65
+    },
+    "findingsByChannel": {
+      "H07_HTML_COMMENT": 9,
+      "H04_ZERO_OPACITY": 2,
+      "H01_DISPLAY_NONE": 31,
+      "H02_VISIBILITY_HIDDEN": 6,
+      "H03_ZERO_FONT": 2,
+      "H12_HIDDEN_ATTR": 15
+    },
+    "renderedPages": 0,
+    "renderFallbackPages": 0,
+    "decodedFindings": 0
+  },
+  "middle-300-rendered": {
+    "domainList": "domain-lists/render-sample-300.txt",
+    "actionsRunId": 34727145746,
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 300,
+    "reachableDomains": 191,
+    "pagesScanned": 638,
+    "hiddenSegmentsExtracted": 20104,
+    "decodedSegments": 13,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 227,
+    "findingsByTier": {
+      "SEO_LEGACY": 227
+    },
+    "findingsByChannel": {
+      "H04_ZERO_OPACITY": 7,
+      "H02_VISIBILITY_HIDDEN": 33,
+      "H01_DISPLAY_NONE": 145,
+      "H07_HTML_COMMENT": 21,
+      "H12_HIDDEN_ATTR": 10,
+      "H03_ZERO_FONT": 4,
+      "H10_HIDDEN_INPUT": 7
+    },
+    "renderedPages": 638,
+    "renderFallbackPages": 0,
+    "decodedFindings": 0
+  },
+  "ugc-1000-rendered": {
+    "domainList": "domain-lists/ugc-1000.txt",
+    "actionsRunId": 34727148494,
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 1000,
+    "reachableDomains": 675,
+    "pagesScanned": 2432,
+    "hiddenSegmentsExtracted": 74624,
+    "decodedSegments": 1195,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 496,
+    "findingsByTier": {
+      "SEO_LEGACY": 496,
+      "C_AGENT_AWARE_BENIGN": 1
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 345,
+      "H02_VISIBILITY_HIDDEN": 30,
+      "H07_HTML_COMMENT": 41,
+      "H05_OFFSCREEN": 10,
+      "H03_ZERO_FONT": 19,
+      "H04_ZERO_OPACITY": 20,
+      "H12_HIDDEN_ATTR": 31,
+      "H09_ALT_TITLE_PROSE": 1
+    },
+    "renderedPages": 2420,
+    "renderFallbackPages": 12,
+    "decodedFindings": 0
+  },
+  "highrisk-1000-rendered": {
+    "domainList": "domain-lists/shady-1000.txt",
+    "actionsRunId": 34727149830,
+    "scanMode": "JavaScript rendered, up to 3 inner pages per site",
+    "domainsSampled": 1000,
+    "reachableDomains": 504,
+    "pagesScanned": 1478,
+    "hiddenSegmentsExtracted": 32991,
+    "decodedSegments": 333,
+    "hiddenAiManipulationFindings": 0,
+    "legacyHiddenSeoFindings": 146,
+    "findingsByTier": {
+      "SEO_LEGACY": 146
+    },
+    "findingsByChannel": {
+      "H01_DISPLAY_NONE": 108,
+      "H04_ZERO_OPACITY": 2,
+      "H12_HIDDEN_ATTR": 7,
+      "H07_HTML_COMMENT": 11,
+      "H05_OFFSCREEN": 2,
+      "H02_VISIBILITY_HIDDEN": 12,
+      "H09_ALT_TITLE_PROSE": 1,
+      "H13_CLIP_RECT": 2,
+      "H03_ZERO_FONT": 1
+    },
+    "renderedPages": 1473,
+    "renderFallbackPages": 5,
+    "decodedFindings": 0
+  }
+}

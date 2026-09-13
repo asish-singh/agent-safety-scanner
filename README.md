@@ -76,7 +76,9 @@ The pilot's blind spots were then closed and the same question asked again, this
 | User generated content 1,000 (forums, boards, communities) | 701 | 2,516 | ~75,900 | 0 | 1,045 |
 | High risk 1,000 (piracy and free streaming style names, lower half) | 490 | 1,440 | ~32,600 | 0 | 133 |
 
-The zero held everywhere. Cumulatively, 2,913 distinct reachable sites (3,103 reachable site scans, since the middle 300 were scanned in both phases) and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. Known limits, including English only content patterns, are listed in STUDY.md.
+The whole sample was scanned again on 13 September 2026 with Base64 and ROT13 decoding of every hidden segment and per page render outcome tracking. Zero hidden AI manipulation again, zero findings from decoded text across 1,634 decodable segments, and 4,531 of 4,548 phase 2 pages actually rendered. Full figures are in `data/summary-2026-09.json` and the second run section of STUDY.md.
+
+The zero held everywhere in July. Cumulatively, 2,913 distinct reachable sites (3,103 reachable site scans, since the middle 300 were scanned in both phases) and over 180,000 pieces of hidden text have been examined without one hidden instruction aimed at an AI agent. Rendering demonstrably widens what the scanner sees (one JavaScript built site went from 0 hidden segments raw to 12 rendered), so the zero is not an artifact of shallow reading. Known limits, including English only content patterns, are listed in STUDY.md.
 
 ## The study
 
